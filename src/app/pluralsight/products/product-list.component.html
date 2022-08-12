@@ -1,0 +1,71 @@
+<div class="table-grid">
+  <div class="table-header">
+    <h2>{{ department.name }} Department</h2>
+    <div class="input-div">
+      <label for="category" style="padding: 1em">Category:</label>
+
+      <select id="category" [(ngModel)]="filterApplied">
+        <option *ngFor="let filter of getFilters()" [ngValue]="filter">
+          {{ filter }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <span *ngIf="!filteredProducts().length">
+      <em style="color: red; padding: 1em"
+        >Sorry, we're all sold out!
+      </em></span
+    >
+    <!-- Inventory Table -->
+    <table *ngIf="filteredProducts().length">
+      <!-- Headers -->
+      <tr>
+        <th>Sku</th>
+        <th>Description</th>
+        <th>Each</th>
+        <th>Stock</th>
+        <th style="border: none; background-color: var(--color-bg-card)">
+          Add
+        </th>
+      </tr>
+      <!-- Table Body -->
+      <tr *ngFor="let product of filteredProducts()">
+        <td>{{ product.sku }}</td>
+        <td>{{ product.desc }}</td>
+        <td style="text-align: end">
+          <!-- {{ toCurrency.format(product.price) }} -->
+          {{ product.price | currency: "USD":"symbol-narrow":"1.2-2" }}
+        </td>
+        <td style="text-align: end">{{ product.qty }}</td>
+        <td style="border: none; background-color: var(--color-bg-card)">
+          <button style="width: 100%" (click)="this.addToCart(product)">
+            +
+          </button>
+        </td>
+      </tr>
+      <tr style="border: none; background-color: transparent">
+        <th style="border: none; padding-top: 0.75em">Your Cart</th>
+        <th style="border: none; padding-top: 0.75em"></th>
+        <th style="border: none; padding-top: 0.75em">Sub-Total</th>
+        <th style="border: none; padding-top: 0.75em">Count</th>
+      </tr>
+      <!-- Cart Table -->
+      <tr *ngFor="let purchase of cart">
+        <td>{{ purchase.sku }}</td>
+        <td>{{ purchase.desc }}</td>
+        <td style="text-align: end">
+          <!-- {{ toCurrency.format(purchase.price * purchase.qty) }} -->
+          {{
+            purchase.price * purchase.qty
+              | currency: "USD":"symbol-narrow":"1.2-2"
+          }}
+        </td>
+        <td style="text-align: end">{{ purchase.qty }}</td>
+      </tr>
+    </table>
+    <span *ngIf="!cart.length">
+      <em style="color: red">Buy something! </em></span
+    >
+  </div>
+</div>

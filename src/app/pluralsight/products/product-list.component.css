@@ -1,0 +1,29 @@
+.table-grid {
+  background-color: var(--color-bg-card);
+  padding: 0.5em;
+}
+.table-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: var(--color-bg-card);
+  align-items: center;
+}
+.input-div {
+  margin-bottom: 0.5em;
+}
+th {
+  border: none;
+  background-color: var(--color-bg-card);
+}
+td {
+  padding: 0.25em 0.75em;
+  border: 2px var(--color-bg-card-outline) double;
+}
+tr {
+  background-color: var(--color-bg-card-foreground);
+}
+table {
+  width: 100%;
+  /* border: 3px var(--color-bg-card-outline) solid; */
+}
