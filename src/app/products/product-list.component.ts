@@ -117,6 +117,14 @@ export class ProductListComponent implements OnInit {
     }
   }
 
+  cartSubTotal(): number {
+    let total = 0;
+    this.cart.forEach((product) => {
+      total += product.price * product.qty;
+    });
+    return total;
+  }
+
   ngOnInit(): void {
     this._filterApplied = 'All';
   }

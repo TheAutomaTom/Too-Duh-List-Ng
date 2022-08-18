@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProductListComponent } from './pluralsight/products/product-list.component';
+import { ProductListComponent } from './products/product-list.component';
 
 @Component({
   selector: 'tdl-root',

@@ -1,9 +1,11 @@
 <div class="app-div">
   <div class="app-header">
-    <h2 style="padding-left: 0.5em">Too-Duh List</h2>
+    <h2 style="padding-left: 0.5em">
+      <a [routerLink]="['/home']"> Too-Duh List</a>
+    </h2>
     <span style="padding-right: 0.5em">Angular 14</span>
   </div>
   <div class="app-content">
-    <pluralsight-products></pluralsight-products>
+    <router-outlet></router-outlet>
   </div>
 </div>
