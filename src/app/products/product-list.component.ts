@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Product } from 'src/types/products';
 import { ProductService } from './services/product.service';
 
@@ -7,14 +8,29 @@ import { ProductService } from './services/product.service';
   templateUrl: 'product-list.component.html',
   styleUrls: ['./product-list.component.css'],
 })
-export class ProductListComponent implements OnInit {
+export class ProductListComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductService) {}
+  subscription!: Subscription;
   products: Product[] = [];
   department = { name: 'Tool' };
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
   ngOnInit(): void {
-    this.products = this.productService.getProducts();
-    this._filterApplied = 'All';
+    // Subscribe runs as async
+    this.subscription = this.productService.getProducts().subscribe({
+      next: (products) => {
+        this.products = products;
+        this._filterApplied = 'All';
+      },
+      error: (err) => console.error(err),
+      //Note: Http Requests only emit once, so 'next' occurs on completion
+      // complete: ...
+    });
+
+    // This would run too early here, because we can't 'await' subscriptions
+    // this._filterApplied = 'All';
   }
 
   _filterApplied = '';

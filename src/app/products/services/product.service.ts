@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../../../types/products';
-
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 @Injectable({
   //Notes on dependency Injection...
   providedIn: 'root', // creates singleton
@@ -9,57 +10,20 @@ import { Product } from '../../../types/products';
   //    providers: [ProductService] in @Component declaration
 })
 export class ProductService {
-  getProducts(): Product[] {
-    return [
-      {
-        sku: 'HT-4000',
-        categories: ['Hand-Tools'],
-        desc: 'Hammer',
-        price: 6.99,
-        qty: 5,
-      },
-      {
-        sku: 'PN-7500',
-        categories: ['Pneumatic'],
-        desc: 'Nail Gun',
-        price: 45.0,
-        qty: 5,
-      },
-      {
-        sku: 'EL-120v',
-        categories: ['Corded'],
-        desc: 'Drill/Driver',
-        price: 33.0,
-        qty: 5,
-      },
-      {
-        sku: 'BP-18v',
-        categories: ['Battery'],
-        desc: 'Drill/Driver',
-        price: 52.0,
-        qty: 5,
-      },
-      {
-        sku: 'FN-150',
-        categories: ['Fasteners', 'Nails'],
-        desc: 'Nail 1-1/2"',
-        price: 0.04,
-        qty: 250,
-      },
-      {
-        sku: 'FN-200',
-        categories: ['Fasteners', 'Nails'],
-        desc: 'Nails 2"',
-        price: 0.01,
-        qty: 600,
-      },
-      {
-        sku: 'FS-250',
-        categories: ['Fasteners', 'Screws'],
-        desc: 'Screws 2-1/2"',
-        price: 0.09,
-        qty: 1000,
-      },
-    ];
+  constructor(private http: HttpClient) {}
+  private _mockUrl = '../../../assets/mockApi/products.json';
+  getProducts(): Observable<Product[]> {
+    console.log(this._mockUrl);
+
+    return this.http.get<Product[]>(this._mockUrl).pipe(
+      //tap reads data but cannot alter anything
+      tap((data) => console.log('All Products: ', JSON.stringify(data))),
+      //pipe can chain functions to create a workflow
+      catchError(this._handleError)
+    );
+  }
+
+  private _handleError(err: HttpErrorResponse) {
+    return throwError(() => 'Error at service!');
   }
 }
