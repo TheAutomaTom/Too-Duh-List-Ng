@@ -27,3 +27,8 @@ table {
   width: 100%;
   /* border: 3px var(--color-bg-card-outline) solid; */
 }
+.sku {
+  font-size: 0.5em;
+  font-family: "Courier New", Courier, monospace;
+  font-style: bold;
+}

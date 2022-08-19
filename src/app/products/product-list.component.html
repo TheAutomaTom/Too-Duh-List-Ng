@@ -22,23 +22,24 @@
     <table *ngIf="filteredProducts().length">
       <!-- Headers -->
       <tr>
-        <th>Sku</th>
         <th>Description</th>
-        <th>Each</th>
         <th>Stock</th>
+        <th>Each</th>
         <th style="border: none; background-color: var(--color-bg-card)">
           Add
         </th>
       </tr>
       <!-- Table Body -->
       <tr *ngFor="let product of filteredProducts()">
-        <td>{{ product.sku }}</td>
-        <td>{{ product.desc }}</td>
+        <td>
+          {{ product.desc }}
+          <span class="sku">({{ product.sku }})</span>
+        </td>
+        <td style="text-align: end">{{ product.qty }}</td>
         <td style="text-align: end">
           <!-- {{ toCurrency.format(product.price) }} -->
           {{ product.price | currency: "USD":"symbol-narrow":"1.2-2" }}
         </td>
-        <td style="text-align: end">{{ product.qty }}</td>
         <td style="border: none; background-color: var(--color-bg-card)">
           <button style="width: 100%" (click)="this.addToCart(product)">
             +
@@ -47,14 +48,17 @@
       </tr>
       <tr style="border: none; background-color: transparent">
         <th style="border: none; padding-top: 0.75em">Your Cart</th>
-        <th style="border: none; padding-top: 0.75em"></th>
-        <th style="border: none; padding-top: 0.75em">Sub-Total</th>
         <th style="border: none; padding-top: 0.75em">Count</th>
+        <th style="border: none; padding-top: 0.75em">Sub-Total</th>
       </tr>
       <!-- Cart Table -->
       <tr *ngFor="let purchase of cart">
-        <td>{{ purchase.sku }}</td>
-        <td>{{ purchase.desc }}</td>
+        <td>
+          {{ purchase.desc }}
+          <span class="sku">({{ purchase.sku }})</span>
+        </td>
+
+        <td style="text-align: end">{{ purchase.qty }}</td>
         <td style="text-align: end">
           <!-- {{ toCurrency.format(purchase.price * purchase.qty) }} -->
           {{
@@ -62,26 +66,25 @@
               | currency: "USD":"symbol-narrow":"1.2-2"
           }}
         </td>
-        <td style="text-align: end">{{ purchase.qty }}</td>
       </tr>
 
       <tr style="background-color: transparent">
-        <th style="padding-top: 0.75em">Sub Total</th>
         <th></th>
+        <th style="padding-top: 0.75em">Sub Total</th>
         <th style="text-align: end; padding-right: 0.76em; padding-top: 0.75em">
           {{ cartSubTotal() | currency: "USD":"symbol-narrow":"1.2-2" }}
         </th>
       </tr>
       <tr style="background-color: transparent; border-bottom: 3px double gray">
-        <th>Tax</th>
-        <th>8.5%</th>
+        <th></th>
+        <th>Tax <span class="sku">(8.5%)</span></th>
         <th style="text-align: end; padding-right: 0.76em">
           {{ cartSubTotal() * 0.085 | currency: "USD":"symbol-narrow":"1.2-2" }}
         </th>
       </tr>
       <tr style="background-color: transparent">
-        <th>Grand Total</th>
         <th></th>
+        <th>Grand Total</th>
         <th style="text-align: end; padding-right: 0.76em">
           {{
             cartSubTotal() + cartSubTotal() * 0.085
