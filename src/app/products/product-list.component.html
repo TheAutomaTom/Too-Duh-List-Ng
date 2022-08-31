@@ -32,8 +32,10 @@
       <!-- Table Body -->
       <tr *ngFor="let product of filteredProducts()">
         <td>
-          {{ product.desc }}
-          <span class="sku">({{ product.sku }})</span>
+          <a [routerLink]="['/products', product.sku]">
+            {{ product.desc }}
+            <span class="sku">({{ product.sku }})</span>
+          </a>
         </td>
         <td style="text-align: end">{{ product.qty }}</td>
         <td style="text-align: end">
